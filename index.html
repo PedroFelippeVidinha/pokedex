@@ -25,25 +25,17 @@
 
 <body>
     <section class="content">
-        <button class="button" id="3geracao" style="float:right;" type="button"
-            onclick="window.location.href = '/index3.html'">
-            3ª Geração
-        </button>
-        <button class="button" id="2geracao" style="float:right;" type="button">
-            2ª Geração
-        </button>
-        <h1 style="text-align: center; color:black;">Pokedex 1ª Geração</h1>
+        <div id="generations">
+            
+        </div>
+        
+        <h1 style="text-align: center; color:black;">Pokedex <b id="generation"></b> Geração</h1>
         <p style="text-decoration:bold; color:black;">Estou desenvolvendo uma Pokedex para o Benicio!</p>
 
         <ol id="pokemonList" class="pokemons">
             <!-- ..... Pokemons here ..... -->
         </ol>
-
-        <div class="pagination">
-            <button id="loadMoreButton" type="button">
-                Carregar mais
-            </button>
-        </div>
+        
     </section>
 
     <!-- Nosso JS -->

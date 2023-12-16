@@ -25,6 +25,14 @@ body .dark-theme {
     background-color: #232b3a;
 }
 
+#generations {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
 @media screen and (min-width: 992px) {
     .content {
         max-width: 992px;

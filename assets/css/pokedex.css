@@ -154,6 +154,7 @@
     background-color: #41828d;
     border: none;
     border-radius: 1rem;
+    cursor: pointer;
 }
 
 .backbutton {

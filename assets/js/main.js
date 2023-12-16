@@ -1,10 +1,5 @@
 const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
-const secondgeneration = document.getElementById('2geracao')
-
-const maxRecords = 151
-const limit = 50
-let offset = 0;
+const generations = document.getElementById('generations')
 
 function convertPokemonToLi(pokemon) {
     return `
@@ -17,35 +12,36 @@ function convertPokemonToLi(pokemon) {
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
 
-                <img src="${pokemon.photo}"
+                <img src="${pokemon.photo}" 
                      alt="${pokemon.name}">
             </div>
         </li>
     `
 }
 
-function loadPokemonItens(offset, limit) {
-    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
+function loadGenerations(){
+    fetch(`https://pokeapi.co/api/v2/generation`)
+    .then((response) => response.json())
+    .then((jsonBody) => jsonBody.results.map((generation) => {
+        generation.id = generation.url.split("/").slice(-2, -1)
+        const linkGeneration = document.createElement('a')
+        linkGeneration.classList.add('button')
+        linkGeneration.text = `${generation.id}ª Geração`
+        linkGeneration.addEventListener("click", () => {
+            loadPokemonItens(generation.id)
+        })
+        generations.appendChild(linkGeneration)
+    }))
+}
+loadGenerations()
+
+
+function loadPokemonItens(generation) {
+    pokemonList.innerHTML = ''
+    document.getElementById("generation").innerHTML = `${generation}ª`
+    pokeApi.getPokemons(generation).then((pokemons = []) => {
         const newHtml = pokemons.map(convertPokemonToLi).join('')
         pokemonList.innerHTML += newHtml
     })
 }
-
-loadPokemonItens(offset, limit)
-
-loadMoreButton.addEventListener('click', () => {
-    offset += limit
-    const qtdRecordsWithNexPage = offset + limit
-
-    if (qtdRecordsWithNexPage >= maxRecords) {
-        const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
-
-        loadMoreButton.parentElement.removeChild(loadMoreButton)
-    } else {
-        loadPokemonItens(offset, limit)
-    }
-})
-
-secondgeneration.addEventListener('click', () => {
-    window.location.href = '/index2.html'})
+loadPokemonItens(1)
