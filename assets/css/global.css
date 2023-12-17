@@ -33,9 +33,73 @@ body .dark-theme {
     gap: 0.5rem;
 }
 
+@media screen and (min-width: 160px) {
+    .content {
+        max-width: 160px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 320px) {
+    .content {
+        max-width: 320px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 480px) {
+    .content {
+        max-width: 480px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 640px) {
+    .content {
+        max-width: 640px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 768px) {
+    .content {
+        max-width: 768px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
 @media screen and (min-width: 992px) {
     .content {
         max-width: 992px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 992px) {
+    .content {
+        max-width: 992px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .content {
+        max-width: 1024px;
+        height: auto;
+        margin: 1rem auto;
+        border-radius: 1rem;
+    }
+}
+@media screen and (min-width: 1280px) {
+    .content {
+        max-width: 1280px;
         height: auto;
         margin: 1rem auto;
         border-radius: 1rem;
