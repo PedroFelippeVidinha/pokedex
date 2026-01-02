@@ -27,12 +27,123 @@
 <body style="background-image: url(assets/bg0.jpg);
       min-height: 100%; background-size: cover; background-repeat: no-repeat; background-position: center center;">
     <section class="content">
+        <h1 class="main-title">Pokédex do Benicio</h1>
+        
         <div id="generations">
             
         </div>
         
-        <h1 style="text-align: center; color:black;">Pokedex <b id="generation"></b> Geração</h1>
-        <p style="text-decoration:bold; color:black;">Estou desenvolvendo uma Pokedex para o Benicio!</p>
+        <p class="generation-subtitle">Você está visualizando os pokémons da <b id="generation">1ª</b> Geração</p>
+
+        <!-- Barra de Busca e Filtros -->
+        <div class="pokedex-filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar por nome ou número..." class="search-input">
+                <button id="searchBtn" class="search-btn">🔍</button>
+            </div>
+
+            <div class="filter-toggles">
+                <button id="toggleFilters" class="toggle-filters-btn">
+                    ⚙️ Abrir busca avançada
+                </button>
+                <button id="resetFilters" class="reset-btn">🔄 Limpar</button>
+            </div>
+
+            <div id="advancedFilters" class="advanced-filters" style="display: none;">
+                <div class="filter-section">
+                    <h3>Geração</h3>
+                    <div class="filter-generations" id="filterGenerations">
+                        <!-- Gerações serão inseridas dinamicamente -->
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Filtrar por Tipo</h3>
+                    <div class="filter-types" id="filterTypes">
+                        <button class="type-btn normal" data-type="normal">Normal</button>
+                        <button class="type-btn fire" data-type="fire">Fogo</button>
+                        <button class="type-btn water" data-type="water">Água</button>
+                        <button class="type-btn electric" data-type="electric">Elétrico</button>
+                        <button class="type-btn grass" data-type="grass">Planta</button>
+                        <button class="type-btn ice" data-type="ice">Gelo</button>
+                        <button class="type-btn fighting" data-type="fighting">Lutador</button>
+                        <button class="type-btn poison" data-type="poison">Venenoso</button>
+                        <button class="type-btn ground" data-type="ground">Terra</button>
+                        <button class="type-btn flying" data-type="flying">Voador</button>
+                        <button class="type-btn psychic" data-type="psychic">Psíquico</button>
+                        <button class="type-btn bug" data-type="bug">Inseto</button>
+                        <button class="type-btn rock" data-type="rock">Pedra</button>
+                        <button class="type-btn ghost" data-type="ghost">Fantasma</button>
+                        <button class="type-btn dragon" data-type="dragon">Dragão</button>
+                        <button class="type-btn dark" data-type="dark">Sombrio</button>
+                        <button class="type-btn steel" data-type="steel">Metálico</button>
+                        <button class="type-btn fairy" data-type="fairy">Fada</button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Filtrar por Fraqueza</h3>
+                    <div class="filter-weaknesses" id="filterWeaknesses">
+                        <button class="weakness-btn normal" data-weakness="normal">Normal</button>
+                        <button class="weakness-btn fire" data-weakness="fire">Fogo</button>
+                        <button class="weakness-btn water" data-weakness="water">Água</button>
+                        <button class="weakness-btn electric" data-weakness="electric">Elétrico</button>
+                        <button class="weakness-btn grass" data-weakness="grass">Planta</button>
+                        <button class="weakness-btn ice" data-weakness="ice">Gelo</button>
+                        <button class="weakness-btn fighting" data-weakness="fighting">Lutador</button>
+                        <button class="weakness-btn poison" data-weakness="poison">Venenoso</button>
+                        <button class="weakness-btn ground" data-weakness="ground">Terra</button>
+                        <button class="weakness-btn flying" data-weakness="flying">Voador</button>
+                        <button class="weakness-btn psychic" data-weakness="psychic">Psíquico</button>
+                        <button class="weakness-btn bug" data-weakness="bug">Inseto</button>
+                        <button class="weakness-btn rock" data-weakness="rock">Pedra</button>
+                        <button class="weakness-btn ghost" data-weakness="ghost">Fantasma</button>
+                        <button class="weakness-btn dragon" data-weakness="dragon">Dragão</button>
+                        <button class="weakness-btn dark" data-weakness="dark">Sombrio</button>
+                        <button class="weakness-btn steel" data-weakness="steel">Metálico</button>
+                        <button class="weakness-btn fairy" data-weakness="fairy">Fada</button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Habilidade</h3>
+                    <select id="abilityFilter" class="ability-select">
+                        <option value="">Todas as habilidades</option>
+                        <!-- Habilidades serão inseridas dinamicamente -->
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Altura</h3>
+                    <div class="filter-size">
+                        <button class="size-btn" data-size="small">
+                            Pequeno<br><span class="size-details">(altura &lt; 1m)</span>
+                        </button>
+                        <button class="size-btn" data-size="medium">
+                            Médio<br><span class="size-details">(1m - 2m)</span>
+                        </button>
+                        <button class="size-btn" data-size="large">
+                            Grande<br><span class="size-details">(altura &gt; 2m)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Peso</h3>
+                    <div class="filter-weight">
+                        <button class="weight-btn" data-weight="light">
+                            Leve<br><span class="size-details">(peso &lt; 50kg)</span>
+                        </button>
+                        <button class="weight-btn" data-weight="medium">
+                            Médio<br><span class="size-details">(50kg - 100kg)</span>
+                        </button>
+                        <button class="weight-btn" data-weight="heavy">
+                            Pesado<br><span class="size-details">(peso &gt; 100kg)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <ol id="pokemonList" class="pokemons">
             <!-- ..... Pokemons here ..... -->
