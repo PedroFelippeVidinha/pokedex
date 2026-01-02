@@ -353,7 +353,7 @@ let activeFilters = {
 function convertPokemonToLi(pokemon) {
     const formattedNumber = String(pokemon.number).padStart(4, '0')
     return `
-        <li class="pokemon ${pokemon.type}">
+        <li class="pokemon ${pokemon.type}" onclick="openPokemonModal(${pokemon.number})">
             <div class="pokemon-image">
                 <img src="${pokemon.photo}" alt="${pokemon.name}">
             </div>
@@ -483,6 +483,9 @@ function displayPokemons(pokemons) {
     
     const newHtml = pokemons.map(convertPokemonToLi).join('')
     pokemonList.innerHTML = newHtml
+    
+    // Atualizar lista de IDs para navegação do modal
+    updatePokemonIds(pokemons)
 }
 
 function filterPokemons() {

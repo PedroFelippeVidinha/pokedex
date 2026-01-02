@@ -151,10 +151,31 @@
 
     </section>
 
+    <!-- Modal de Detalhes do Pokémon -->
+    <div id="pokemonModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button id="closeModal" class="btn-close">✕</button>
+                <div class="modal-navigation">
+                    <button id="prevPokemon" class="btn-nav">←</button>
+                    <button id="nextPokemon" class="btn-nav">→</button>
+                </div>
+            </div>
+            
+            <div class="modal-content" id="modalContent">
+                <div class="loading">Carregando...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nosso CSS -->
+    <link rel="stylesheet" href="assets/css/pokemon-detail.css">
+
     <!-- Nosso JS -->
     <script src="assets/js/pokemon-model.js"></script>
     <script src="assets/js/poke-api.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/pokemon-detail.js"></script>
 </body>
 
 </html>

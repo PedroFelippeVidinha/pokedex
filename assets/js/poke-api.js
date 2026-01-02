@@ -84,3 +84,66 @@ pokeApi.getPokemons = (generation = 1) => {
         .then((detailRequests) => Promise.all(detailRequests))
         .then((pokemonsDetails) => pokemonsDetails)
 }
+
+// Buscar dados detalhados de um Pokémon específico
+pokeApi.getPokemonFullDetails = (pokemonId) => {
+    const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`
+    const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`
+    
+    return Promise.all([
+        fetch(pokemonUrl).then(res => res.json()),
+        fetch(speciesUrl).then(res => res.json())
+    ]).then(([pokemonData, speciesData]) => {
+        return {
+            pokemon: pokemonData,
+            species: speciesData
+        }
+    })
+}
+
+// Buscar cadeia de evolução
+pokeApi.getEvolutionChain = async (evolutionChainUrl) => {
+    const chainData = await fetch(evolutionChainUrl).then(res => res.json())
+    const evolutions = []
+    
+    function extractEvolutions(chain) {
+        const speciesUrl = chain.species.url
+        const id = speciesUrl.split('/').slice(-2, -1)[0]
+        
+        evolutions.push({
+            id: parseInt(id),
+            name: chain.species.name
+        })
+        
+        if (chain.evolves_to && chain.evolves_to.length > 0) {
+            chain.evolves_to.forEach(evolution => {
+                extractEvolutions(evolution)
+            })
+        }
+    }
+    
+    extractEvolutions(chainData.chain)
+    
+    // Buscar tipo de cada evolução
+    const evolutionsWithTypes = await Promise.all(
+        evolutions.map(async (evo) => {
+            try {
+                const pokemonData = await fetch(`https://pokeapi.co/api/v2/pokemon/${evo.id}/`).then(res => res.json())
+                const types = pokemonData.types.map(t => t.type.name)
+                return {
+                    ...evo,
+                    type: types[0],
+                    types: types
+                }
+            } catch (error) {
+                return {
+                    ...evo,
+                    type: 'normal',
+                    types: ['normal']
+                }
+            }
+        })
+    )
+    
+    return evolutionsWithTypes
+}
