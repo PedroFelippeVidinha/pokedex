@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Pokémon</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/games.css">
+    <style>
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            color: #f5f5f0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .pokemon-display {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .pokemon-image-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .pokemon-image {
+            max-width: 250px;
+            max-height: 250px;
+            filter: brightness(0);
+            transition: filter 0.3s ease;
+        }
+
+        .pokemon-image.revealed {
+            filter: none;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-button {
+            background: white;
+            border: 3px solid #ddd;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: capitalize;
+        }
+
+        .option-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .option-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-button.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-button.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            min-height: 2rem;
+        }
+
+        .feedback-message.correct {
+            color: #4caf50;
+        }
+
+        .feedback-message.wrong {
+            color: #f44336;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+        }
+
+        .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .game-over {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-over h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 2rem;
+        }
+
+        .game-over-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .game-over-buttons button {
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-again {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .play-again:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .game-stats {
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.75rem 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .pokemon-image-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .pokemon-image {
+                max-width: 200px;
+                max-height: 200px;
+            }
+
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+
+            .option-button {
+                font-size: 1.1rem;
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body style="background-image: url(assets/bg0.jpg); min-height: 100vh; background-size: cover; background-repeat: no-repeat; background-position: center center;">
+    <section class="content">
+        <a href="index_games.html" class="back-button">← Voltar aos Jogos</a>
+        
+        <div class="game-container">
+            <div class="game-header">
+                <h1 class="game-title">🔍 Adivinhe o Pokémon</h1>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Pontuação</div>
+                        <div class="stat-value" id="score">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Rodada</div>
+                        <div class="stat-value"><span id="currentRound">1</span>/10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameArea">
+                <div class="pokemon-display">
+                    <div id="loadingIndicator" style="display: none; text-align: center; padding: 3rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                        <p style="font-size: 1.2rem; color: #666;">Preparando o jogo...</p>
+                    </div>
+                    <div id="gameContent">
+                        <div class="pokemon-image-container">
+                            <img id="pokemonImage" class="pokemon-image" src="" alt="Pokémon Silhueta">
+                        </div>
+                        <p class="question-text">Quem é esse Pokémon?</p>
+                        <div class="options-container" id="optionsContainer">
+                            <!-- Opções serão inseridas dinamicamente -->
+                        </div>
+                        <div class="feedback-message" id="feedbackMessage"></div>
+                        <button class="next-button" id="nextButton" disabled>Próximo Pokémon →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameOverArea" style="display: none;">
+                <div class="game-over">
+                    <h2>🎉 Jogo Finalizado!</h2>
+                    <div class="final-score" id="finalScore">0/10</div>
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">Parabéns! Você conhece muito bem os Pokémon!</p>
+                    <div class="game-over-buttons">
+                        <button class="play-again" onclick="restartGame()">🔄 Jogar Novamente</button>
+                        <a href="index_games.html" class="play-button">← Voltar aos Jogos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/pokemon-model.js"></script>
+    <script src="assets/js/poke-api.js"></script>
+    <script src="assets/js/games-stats.js"></script>
+    <script src="assets/js/game-guess.js"></script>
+</body>
+</html>

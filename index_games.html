@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" name="favicon" href="assets/favicon/favicon.ico">
+    <title>Jogos Pokémon - Pokédex do Benicio</title>
+
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Font Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/games.css">
+</head>
+
+<body style="background-image: url(assets/bg0.jpg);
+      min-height: 100%; background-size: cover; background-repeat: no-repeat; background-position: center center;">
+    
+    <section class="content">
+        <a href="index.html" class="back-button" title="Voltar à Pokédex">
+            ← Voltar
+        </a>
+        
+        <h1 class="main-title">🎮 Jogos Pokémon</h1>
+        <p class="games-subtitle">Escolha um jogo e divirta-se!</p>
+
+        <div class="games-grid">
+            <!-- Jogo 1: Adivinhe o Pokémon -->
+            <div class="game-card">
+                <div class="game-icon">🔍</div>
+                <h2 class="game-title">Adivinhe o Pokémon</h2>
+                <p class="game-description">Veja a silhueta e adivinhe qual é o Pokémon!</p>
+                <div class="game-stats">
+                    <span>⭐ Dificuldade: Fácil</span>
+                    <span>⏱️ 5-10 min</span>
+                </div>
+                <a href="game_guess.html" class="play-button">Jogar Agora</a>
+            </div>
+
+            <!-- Jogo 2: Batalha de Tipos -->
+            <div class="game-card">
+                <div class="game-icon">⚔️</div>
+                <h2 class="game-title">Batalha de Tipos</h2>
+                <p class="game-description">Teste seu conhecimento sobre efetividades de tipos!</p>
+                <div class="game-stats">
+                    <span>⭐ Dificuldade: Média</span>
+                    <span>⏱️ 10-15 min</span>
+                </div>
+                <a href="game_types.html" class="play-button">Jogar Agora</a>
+            </div>
+
+            <!-- Jogo 3: Jogo da Memória -->
+            <div class="game-card">
+                <div class="game-icon">🧩</div>
+                <h2 class="game-title">Jogo da Memória</h2>
+                <p class="game-description">Encontre os pares de Pokémon iguais!</p>
+                <div class="game-stats">
+                    <span>⭐ Dificuldade: Fácil</span>
+                    <span>⏱️ 5-10 min</span>
+                </div>
+                <a href="game_memory.html" class="play-button">Jogar Agora</a>
+            </div>
+
+            <!-- Jogo 4: Cartas Pokémon -->
+            <div class="game-card">
+                <div class="game-icon">🃏</div>
+                <h2 class="game-title">Cartas Pokémon</h2>
+                <p class="game-description">Monte seu deck e veja as cartas oficiais!</p>
+                <div class="game-stats">
+                    <span>⭐ Dificuldade: Fácil</span>
+                    <span>⏱️ 10-20 min</span>
+                </div>
+                <a href="game_cards.html" class="play-button">Jogar Agora</a>
+            </div>
+
+            <!-- Jogo 5: Simulador de Batalha -->
+            <div class="game-card">
+                <div class="game-icon">⚡</div>
+                <h2 class="game-title">Simulador de Batalha</h2>
+                <p class="game-description">Escolha seu Pokémon e batalhe contra oponentes!</p>
+                <div class="game-stats">
+                    <span>⭐ Dificuldade: Média</span>
+                    <span>⏱️ 15-20 min</span>
+                </div>
+                <a href="game_battle.html" class="play-button">Jogar Agora</a>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>📊 Suas Estatísticas</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGamesPlayed">0</div>
+                    <div class="stat-label">Jogos Jogados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalScore">0</div>
+                    <div class="stat-label">Pontos Totais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="highestStreak">0</div>
+                    <div class="stat-label">Maior Sequência</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/games-stats.js"></script>
+</body>
+
+</html>
