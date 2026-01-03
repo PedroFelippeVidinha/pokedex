@@ -3,32 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batalha de Tipos - Em Breve</title>
+    <title>Batalha de Tipos</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/games.css">
     <style>
-        .coming-soon {
-            text-align: center;
-            padding: 4rem 2rem;
-            max-width: 600px;
+        .game-container {
+            max-width: 900px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
         }
-        .coming-soon h1 {
-            color: #333;
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .game-title {
             font-size: 2.5rem;
+            color: #f5f5f0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin-bottom: 1rem;
         }
-        .coming-soon p {
-            color: #666;
-            font-size: 1.2rem;
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
             margin-bottom: 2rem;
         }
-        .coming-soon-icon {
-            font-size: 6rem;
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            text-align: center;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .type-battle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .type-badge-large {
+            padding: 1.5rem 3rem;
+            border-radius: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vs-icon {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-button {
+            background: white;
+            border: 3px solid #ddd;
+            padding: 2rem 1rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .option-icon {
+            font-size: 2rem;
+        }
+
+        .option-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .option-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-button.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-button.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback-message {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            min-height: 2rem;
+        }
+
+        .feedback-message.correct {
+            color: #4caf50;
+        }
+
+        .feedback-message.wrong {
+            color: #f44336;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+        }
+
+        .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .game-over {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-over h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 2rem;
+        }
+
+        .game-over-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .game-over-buttons button,
+        .game-over-buttons a {
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .play-again {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .play-again:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Cores dos tipos */
+        .type-normal { background: #A8A77A; }
+        .type-fire { background: #EE8130; }
+        .type-water { background: #6390F0; }
+        .type-electric { background: #F7D02C; color: #333; }
+        .type-grass { background: #7AC74C; }
+        .type-ice { background: #96D9D6; }
+        .type-fighting { background: #C22E28; }
+        .type-poison { background: #A33EA1; }
+        .type-ground { background: #E2BF65; }
+        .type-flying { background: #A98FF3; }
+        .type-psychic { background: #F95587; }
+        .type-bug { background: #A6B91A; }
+        .type-rock { background: #B6A136; }
+        .type-ghost { background: #735797; }
+        .type-dragon { background: #6F35FC; }
+        .type-dark { background: #705746; }
+        .type-steel { background: #B7B7CE; }
+        .type-fairy { background: #D685AD; }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .game-stats {
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.75rem 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .type-battle-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .type-badge-large {
+                min-width: 120px;
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+            }
+
+            .vs-icon {
+                font-size: 2rem;
+                transform: rotate(90deg);
+            }
+
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+
+            .option-button {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -36,13 +315,66 @@
     <section class="content">
         <a href="index_games.html" class="back-button">← Voltar aos Jogos</a>
         
-        <div class="coming-soon">
-            <div class="coming-soon-icon">⚔️</div>
-            <h1>Batalha de Tipos</h1>
-            <p>Este jogo incrível está sendo desenvolvido!</p>
-            <p>Em breve você poderá testar seus conhecimentos sobre tipos Pokémon.</p>
-            <a href="index_games.html" class="play-button">Voltar aos Jogos</a>
+        <div class="game-container">
+            <div class="game-header">
+                <h1 class="game-title">⚔️ Batalha de Tipos</h1>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Pontuação</div>
+                        <div class="stat-value" id="score">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Rodada</div>
+                        <div class="stat-value"><span id="currentRound">1</span>/10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameArea">
+                <div class="question-card">
+                    <p class="question-title">Qual é a efetividade deste ataque?</p>
+                    
+                    <div class="type-battle-container">
+                        <div id="attackerType" class="type-badge-large">Fogo</div>
+                        <div class="vs-icon">⚡</div>
+                        <div id="defenderType" class="type-badge-large">Água</div>
+                    </div>
+                    
+                    <div class="options-container" id="optionsContainer">
+                        <button class="option-button" data-answer="super">
+                            <span class="option-icon">💪</span>
+                            <span>Super Efetivo</span>
+                        </button>
+                        <button class="option-button" data-answer="normal">
+                            <span class="option-icon">👍</span>
+                            <span>Normal</span>
+                        </button>
+                        <button class="option-button" data-answer="not">
+                            <span class="option-icon">🛡️</span>
+                            <span>Não Efetivo</span>
+                        </button>
+                    </div>
+                    
+                    <div class="feedback-message" id="feedbackMessage"></div>
+                    <button class="next-button" id="nextButton" disabled>Próxima Batalha →</button>
+                </div>
+            </div>
+
+            <div id="gameOverArea" style="display: none;">
+                <div class="game-over">
+                    <h2>🎉 Batalha Finalizada!</h2>
+                    <div class="final-score" id="finalScore">0/10</div>
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">Você é um mestre dos tipos Pokémon!</p>
+                    <div class="game-over-buttons">
+                        <button class="play-again" onclick="restartGame()">🔄 Jogar Novamente</button>
+                        <a href="index_games.html" class="play-button">← Voltar aos Jogos</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <script src="assets/js/games-stats.js"></script>
+    <script src="assets/js/game-types.js"></script>
 </body>
 </html>
