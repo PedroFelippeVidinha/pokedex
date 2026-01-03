@@ -3,46 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Batalha - Em Breve</title>
+    <title>Simulador de Batalha Pokémon</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/games.css">
     <style>
-        .coming-soon {
-            text-align: center;
-            padding: 4rem 2rem;
-            max-width: 600px;
+        .battle-container {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem;
+        }
+        .battle-title {
+            text-align: center;
+            color: #f5f5f0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+        .battle-arena {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 1.5rem;
+            padding: 2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
         }
-        .coming-soon h1 {
-            color: #333;
-            font-size: 2.5rem;
+        .pokemon-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .pokemon-option {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 1rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .pokemon-option:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .pokemon-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+        }
+        .pokemon-option img {
+            width: 80px;
+            height: 80px;
+        }
+        .pokemon-option .name {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .battle-screen {
+            display: none;
+        }
+        .battle-screen.active {
+            display: block;
+        }
+        .fighters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .fighter {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .fighter.player {
+            border: 3px solid #667eea;
+        }
+        .fighter.opponent {
+            border: 3px solid #e74c3c;
+        }
+        .fighter-image {
+            text-align: center;
             margin-bottom: 1rem;
         }
-        .coming-soon p {
-            color: #666;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+        .fighter-image img {
+            width: 150px;
+            height: 150px;
         }
-        .coming-soon-icon {
-            font-size: 6rem;
-            margin-bottom: 2rem;
+        .fighter-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .hp-bar-container {
+            background: #ddd;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .hp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        .hp-bar.low {
+            background: linear-gradient(90deg, #ff9800, #ff5722);
+        }
+        .hp-bar.critical {
+            background: linear-gradient(90deg, #f44336, #d32f2f);
+        }
+        .battle-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .action-btn {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .battle-log {
+            background: #f8f9fa;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 2rem;
+        }
+        .log-entry {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #667eea;
+            padding-left: 1rem;
+        }
+        .log-entry.damage {
+            border-left-color: #e74c3c;
+        }
+        .log-entry.heal {
+            border-left-color: #4caf50;
+        }
+        .start-btn {
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto;
+            transition: all 0.3s;
+        }
+        .start-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .battle-result {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            display: none;
+        }
+        .battle-result.show {
+            display: block;
+        }
+        .battle-result.victory {
+            border: 3px solid #4caf50;
+        }
+        .battle-result.defeat {
+            border: 3px solid #e74c3c;
+        }
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+        .result-text {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .fighters {
+                grid-template-columns: 1fr;
+            }
+            .battle-actions {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body style="background-image: url(assets/bg0.jpg); min-height: 100vh; background-size: cover; background-repeat: no-repeat; background-position: center center;">
-    <section class="content">
+    <section class="content battle-container">
         <a href="index_games.html" class="back-button">← Voltar aos Jogos</a>
         
-        <div class="coming-soon">
-            <div class="coming-soon-icon">⚡</div>
-            <h1>Simulador de Batalha</h1>
-            <p>Este jogo incrível está sendo desenvolvido!</p>
-            <p>Em breve você poderá escolher seu Pokémon e batalhar!</p>
-            <a href="index_games.html" class="play-button">Voltar aos Jogos</a>
+        <h1 class="battle-title">⚡ Simulador de Batalha Pokémon</h1>
+
+        <div id="selectionScreen" class="battle-arena">
+            <h2 style="text-align: center; color: #333; margin-bottom: 1.5rem;">Escolha seu Pokémon</h2>
+            <div class="pokemon-selection" id="pokemonSelection"></div>
+            <button id="startBattleBtn" class="start-btn" disabled>⚔️ Iniciar Batalha</button>
+        </div>
+
+        <div id="battleScreen" class="battle-arena battle-screen">
+            <div class="fighters">
+                <div class="fighter player">
+                    <div class="fighter-image">
+                        <img id="playerImage" src="" alt="Seu Pokémon">
+                    </div>
+                    <div class="fighter-name" id="playerName"></div>
+                    <div class="hp-bar-container">
+                        <div class="hp-bar" id="playerHpBar">
+                            <span id="playerHpText">100/100</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; color: #666; font-size: 0.9rem;">
+                        <strong>Tipo:</strong> <span id="playerType"></span>
+                    </div>
+                </div>
+
+                <div class="fighter opponent">
+                    <div class="fighter-image">
+                        <img id="opponentImage" src="" alt="Oponente">
+                    </div>
+                    <div class="fighter-name" id="opponentName"></div>
+                    <div class="hp-bar-container">
+                        <div class="hp-bar" id="opponentHpBar">
+                            <span id="opponentHpText">100/100</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; color: #666; font-size: 0.9rem;">
+                        <strong>Tipo:</strong> <span id="opponentType"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="battle-actions">
+                <button class="action-btn" id="attackBtn">⚔️ Atacar</button>
+                <button class="action-btn" id="specialAttackBtn">✨ Ataque Especial</button>
+                <button class="action-btn" id="defendBtn">🛡️ Defender</button>
+                <button class="action-btn" id="healBtn">💊 Curar (3x)</button>
+            </div>
+
+            <div class="battle-log" id="battleLog"></div>
+
+            <div class="battle-result" id="battleResult">
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-text" id="resultText"></div>
+                <button class="start-btn" onclick="location.reload()">🔄 Nova Batalha</button>
+            </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="assets/js/game-battle.js"></script>
 </body>
 </html>
