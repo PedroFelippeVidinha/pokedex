@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" name="favicon" href="assets/favicon/favicon.ico">
+    <title>Jogos Clássicos Pokémon - Pokédex do Benicio</title>
+
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Font Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/games.css">
+    <link rel="stylesheet" href="assets/css/emulator.css">
+</head>
+
+<body style="background-image: url(assets/bg0.jpg);
+      min-height: 100%; background-size: cover; background-repeat: no-repeat; background-position: center center;">
+    
+    <section class="content">
+        <a href="index_games.html" class="back-button" title="Voltar aos Jogos">
+            ← Voltar
+        </a>
+        
+        <h1 class="main-title">🎮 Jogos Clássicos Pokémon</h1>
+        <p class="games-subtitle">Clique no jogo para começar!</p>
+
+        <!-- Seletor de Jogos -->
+        <div class="game-selector">
+            <h3>🎮 Escolha seu jogo:</h3>
+            <div class="games-list">
+                <button class="game-option" data-game="pokemon-emerald" data-core="gba">
+                    <span class="game-icon-small">💎</span>
+                    <span class="game-name">Pokémon Esmeralda</span>
+                </button>
+                <button class="game-option" data-game="pokemon-firered" data-core="gba">
+                    <span class="game-icon-small">🔥</span>
+                    <span class="game-name">Pokémon Vermelho Fogo</span>
+                </button>
+                <button class="game-option" data-game="pokemon-leafgreen" data-core="gba">
+                    <span class="game-icon-small">🍃</span>
+                    <span class="game-name">Pokémon Verde Folha</span>
+                </button>
+                <button class="game-option" data-game="pokemon-ruby" data-core="gba">
+                    <span class="game-icon-small">♦️</span>
+                    <span class="game-name">Pokémon Rubi</span>
+                </button>
+                <button class="game-option" data-game="pokemon-sapphire" data-core="gba">
+                    <span class="game-icon-small">🔷</span>
+                    <span class="game-name">Pokémon Safira</span>
+                </button>
+                <button class="game-option" data-game="pokemon-tcg" data-core="gbc">
+                    <span class="game-icon-small">🃏</span>
+                    <span class="game-name">Pokémon Trading Card Game</span>
+                </button>
+                <button class="game-option" data-game="pokemon-crystal" data-core="gbc">
+                    <span class="game-icon-small">💠</span>
+                    <span class="game-name">Pokémon Cristal</span>
+                </button>
+                <button class="game-option" data-game="pokemon-gold" data-core="gbc">
+                    <span class="game-icon-small">🥇</span>
+                    <span class="game-name">Pokémon Ouro</span>
+                </button>
+                <button class="game-option" data-game="pokemon-silver" data-core="gbc">
+                    <span class="game-icon-small">🥈</span>
+                    <span class="game-name">Pokémon Prata</span>
+                </button>
+                <button class="game-option" data-game="pokemon-yellow" data-core="gb">
+                    <span class="game-icon-small">⚡</span>
+                    <span class="game-name">Pokémon Amarelo</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Container do Emulador -->
+        <div id="emulator-container" class="emulator-wrapper" style="display: none;">
+            <div class="emulator-header">
+                <h3 id="current-game-title">Carregando jogo...</h3>
+                <button id="close-emulator" class="close-button">✖ Fechar</button>
+            </div>
+            <div class="emulator-screen">
+                <div id="game" style="width: 100%; max-width: 800px; margin: 0 auto;"></div>
+            </div>
+            <div class="emulator-controls">
+                <div class="control-info">
+                    <h4>🎮 Controles:</h4>
+                    <div class="controls-grid">
+                        <span>⬆️⬇️⬅️➡️ Setas: Mover</span>
+                        <span>Z ou X: Botão A/B</span>
+                        <span>Enter: Start</span>
+                        <span>Shift: Select</span>
+                        <span>💾 Save: Automático</span>
+                    </div>
+                </div>
+            </div>
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="loading-spinner"></div>
+                <p>Carregando jogo... Pode demorar até 30 segundos...</p>
+            </div>
+        </div>
+
+        <!-- Aviso Legal -->
+        <div class="legal-notice">
+            <p><strong>🎮 Super Simples:</strong> Clique no jogo e ele abre no modal abaixo! Use as setas do teclado para jogar. 🕹️</p>
+            <p><strong>✖️ Fechar:</strong> Clique no botão "✖ Fechar" para voltar e escolher outro jogo.</p>
+        </div>
+    </section>
+
+    <!-- GBA.js - Emulador JavaScript puro -->
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/util.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/arm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/thumb.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/mmu.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/audio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/video/proxy.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/video/software.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/irq.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/keypad.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/sio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/savedata.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/gpio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gbajs@1.1.0/js/gba.js"></script>
+    <script src="assets/js/game-emulator.js"></script>
+</body>
+
+</html>
